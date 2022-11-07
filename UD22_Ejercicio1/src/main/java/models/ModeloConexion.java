@@ -17,9 +17,9 @@ public class ModeloConexion {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conexion = DriverManager.getConnection(
-					"jdbc:mysql://192.168.1.146:3306?useTimezone=true&serverTimezone=UTC", "remote",
-					"Introducir contraseña");
-			System.out.println("Server Connected");
+					"jdbc:mysql://192.168.1.105:3306?useTimezone=true&serverTimezone=UTC", "remote",
+					"Ivan7442@");
+			JOptionPane.showMessageDialog(null,"Servidor conectado");
 			return conexion;
 		} catch (SQLException | ClassNotFoundException ex) {
 			System.out.println("No se ha podido conectar con mi base de datos");
@@ -43,8 +43,11 @@ public class ModeloConexion {
 	// BBDD----------------------------------------------------------------------------------------------------
 	public void createDB(Connection conexion, String name) {
 		try {
-			String Query = "CREATE DATABASE " + name;
+			String Query = "DROP DATABASE IF EXISTS " + name;
 			Statement st = conexion.createStatement();
+			st.executeUpdate(Query);
+			Query = "CREATE DATABASE " + name;
+			st = conexion.createStatement();
 			st.executeUpdate(Query);
 			JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
 		} catch (SQLException ex) {
@@ -67,17 +70,17 @@ public class ModeloConexion {
 
 	// -------------------------------------------------CREAR
 	// TABLAS---------------------------------------------------------------------
-	public static void createTable(Connection conexion, String db, String name) {
+	public void createTable(Connection conexion, String db, String name) {
 		try {
 			String Querydb = "USE " + db + ";";
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query = "CREATE TABLE " + name
-					+ "(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(250) DEFAULT NULL, apellido VARCHAR(250), Edad VARCHAR(3), Sexo VARCHAR(1))";
+			String Query = "CREATE TABLE " + name+"(id INT(11) PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(250) DEFAULT NULL, apellido VARCHAR(250) DEFAULT NULL, direccion VARCHAR(250) DEFAULT NULL, dni INT(11) DEFAULT NULL, fecha DATE DEFAULT NULL)";
+
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
-			System.out.println("Tabla creada");
+			JOptionPane.showMessageDialog(null, "Tabla creada");
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			System.out.println("Error creando tabla.");
@@ -87,7 +90,7 @@ public class ModeloConexion {
 
 	// --------------------------------------------------INTRODUCIR
 	// DATOS---------------------------------------------------------------------------------------------
-	public static void insertData(Connection conexion, String db, String table_name, String name, String lastname,
+	public void insertData(Connection conexion, String db, String table_name, String name, String lastname,
 			String direccion, int dni, String fecha) {
 		try {
 			String Querydb = "USE " + db + ";";
@@ -101,7 +104,7 @@ public class ModeloConexion {
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
 
-			System.out.println("Datos almacenados correctamente");
+			JOptionPane.showMessageDialog(null, "Datos almacenados correctamente");
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
@@ -111,7 +114,8 @@ public class ModeloConexion {
 
 	// -------------------------------------------------VER
 	// DATOS----------------------------------------------------------------------------------------------------
-	public static void getValues(Connection conexion, String db, String table_name) {
+	public String getValues(Connection conexion, String db, String table_name) {
+		String values = "";
 		try {
 			String Querydb = "USE " + db + ";";
 			Statement stdb = conexion.createStatement();
@@ -123,16 +127,18 @@ public class ModeloConexion {
 			resultSet = st.executeQuery(Query);
 
 			while (resultSet.next()) {
-				System.out.println("id: " + resultSet.getString("id") + " " + "nombre: " + resultSet.getString("nombre")
-						+ " " + "apellido: " + resultSet.getString("apellido") + " " + "direccion: "
-						+ resultSet.getString("direccion") + " " + "dni: " + resultSet.getString("dni") + " "
-						+ "fecha: " + resultSet.getString("fecha"));
+				values+=("{\nid: " + resultSet.getString("id") + "\n" + "nombre: " + resultSet.getString("nombre")
+						+ "\n" + "apellido: " + resultSet.getString("apellido") + "\n" + "direccion: "
+						+ resultSet.getString("direccion") + "\n" + "dni: " + resultSet.getString("dni") + "\n"
+						+ "fecha: " + resultSet.getString("fecha")+"\n}\n\n");
 			}
+			
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error en la adquisición de datos");
 		}
+		return values;
 	}
 
 	// -------------------------------------------------MODIFICAR
