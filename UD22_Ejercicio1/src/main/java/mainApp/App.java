@@ -1,4 +1,4 @@
-package Ud22.UD22_Ejercicio1;
+package mainApp;
 
 /**
  * Hello world!
