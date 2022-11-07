@@ -9,11 +9,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import mysql_functions.Functions;
-
 public class ModeloConexion {
 
-	//---------------------------------------------------Crear Conexion BBDD-----------------------------------------------------------------------------------------
+	//---------------------------------------------------CREAR CONEXION BBDD-----------------------------------------------------------------------------------------
 			public Connection createConexion() {
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
@@ -27,7 +25,7 @@ public class ModeloConexion {
 				}
 			}
 			
-	//-----------------------------------------------Cerrar Conexion BBDD--------------------------------------------------------------------------------------------
+	//-----------------------------------------------CERRAR CONEXION BBDD--------------------------------------------------------------------------------------------
 			public void closeConnection(Connection conexion) {
 				try {
 					conexion.close();
@@ -49,27 +47,14 @@ public class ModeloConexion {
 				}
 			}
 			
-	//---------------------------------------------------MOSTRAR BBDD-------------------------------------------------------------------------------------------------
-	
-			public void showDB(Connection conexion,String name) {
-				try {
-					String Query = "SHOW DATABASE "+name;
-					Statement st = conexion.createStatement();
-					st.executeUpdate(Query);		
-				}catch(SQLException ex) {
-					Logger.getLogger(ModeloConexion.class.getName()).log(Level.SEVERE,null,ex);
-				}
-			}
-			
-			
-	//-------------------------------------------------CREAR TABLAS---------------------------------------------------------------------
+	//-------------------------------------------------CREAR TABLAS--------------------------------------------------------------------------------------------------
 			public static void createTable(Connection conexion,String db, String name) {
 				try {
 					String Querydb = "USE " +db+";";
 					Statement stdb= conexion.createStatement();
 					stdb.executeUpdate(Querydb);
 					
-					String Query = "CREATE TABLE " + name+"(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(250) DEFAULT NULL, apellido VARCHAR(250), Edad VARCHAR(3), Sexo VARCHAR(1))";
+					String Query = "CREATE TABLE " + name+"(id INT(11) PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(250) DEFAULT NULL, apellido VARCHAR(250) DEFAULT NULL, direccion VARCHAR(250) DEFAULT NULL, dni INT(11) DEFAULT NULL, fecha DATE DEFAULT NULL)";
 					Statement st = conexion.createStatement();
 					st.executeUpdate(Query);
 					System.out.println("Tabla creada");
@@ -80,5 +65,101 @@ public class ModeloConexion {
 				
 			}
 	
+	//--------------------------------------------------INTRODUCIR DATOS---------------------------------------------------------------------------------------------
+			public static void insertData(Connection conexion,String db, String table_name, String name, String lastname, String direccion,int dni, String fecha) {
+				try {
+					String Querydb = "USE "+db+";";
+					Statement stdb = conexion.createStatement();
+					stdb.executeUpdate(Querydb);
+					
+					String Query = "INSERT INTO "+table_name+"  (nombre, apellido, direccion, dni, fecha) VALUE("
+							+"\""+name+"\", "
+							+"\""+lastname+"\", "
+							+"\""+direccion+"\", "
+							+"\""+dni+"\", "
+							+"\""+fecha+"\");";
+					
+					Statement st = conexion.createStatement();
+					st.executeUpdate(Query);
+					
+					System.out.println("Datos almacenados correctamente");
+					
+				}catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Error en el almacenamiento");
+				}
+			}
+
+	//-------------------------------------------------VER DATOS----------------------------------------------------------------------------------------------------
+			public static void getValues(Connection conexion,String db, String table_name) {
+				try {
+					String Querydb = "USE "+db+";";
+					Statement stdb = conexion.createStatement();
+					stdb.executeUpdate(Querydb);
+					
+					String Query = "SELECT * FROM "+table_name;
+					Statement st= conexion.createStatement();
+					java.sql.ResultSet resultSet;
+					resultSet = st.executeQuery(Query);
+					
+					while (resultSet.next()) {
+						System.out.println("id: " + resultSet.getString("id")+" "+"nombre: "+ resultSet.getString("nombre")+" "+"apellido: "+resultSet.getString("apellido")+" "+"direccion: "+resultSet.getString("direccion")+" "+"dni: "+resultSet.getString("dni")+" "+"fecha: "+resultSet.getString("fecha"));
+					}
+				
+					
+				}catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Error en la adquisición de datos");
+				}
+			}
+			
+	//-------------------------------------------------MODIFICAR REGISTROS-----------------------------------------------------------------------------------------
+			public void updateRecord(Connection conexion,String db, String table_name, String comando) {
+				try {
+					String Querydb = "USE "+db+";";
+					Statement stdb = conexion.createStatement();
+					stdb.executeUpdate(Querydb);
+					
+					String Query = "UPDATE "+table_name+" SET "+comando;
+					Statement st = conexion.createStatement();
+					st.executeUpdate(Query);
+					System.out.println("Se ha updeteado el registro correctamente");
+				}catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+					JOptionPane.showMessageDialog(null,"Error al updetear el registro especificado");
+				}
+			}
+			
+	//-------------------------------------------------CONSULTAR REGISTROS-----------------------------------------------------------------------------------------
+		public void consulta(Connection conexion,String db, String comando) {
+			try {
+				String Querydb = "USE "+db+";";
+				Statement stdb = conexion.createStatement();
+				stdb.executeUpdate(Querydb);
+					
+				String Query = "SELECT "+comando;
+				Statement st = conexion.createStatement();
+				st.executeUpdate(Query);
+			}catch(SQLException ex) {
+				System.out.println(ex.getMessage());
+				JOptionPane.showMessageDialog(null,"Error al updetear el registro especificado");
+			}
+		}
 	
+	//-------------------------------------------------ELIMINAR REGISTROS-------------------------------------------------------------------------------------------
+		public void deleteRecord(Connection conexion,String db, String table_name, String ID) {
+			try {
+				String Querydb = "USE "+db+";";
+				Statement stdb = conexion.createStatement();
+				stdb.executeUpdate(Querydb);
+				
+				String Query = "DELETE FROM "+table_name+" WHERE ID = \""+ID+"\"";
+				Statement st = conexion.createStatement();
+				st.executeUpdate(Query);
+				System.out.println("Se ha eliminado el registro correctamente");
+			}catch(SQLException ex) {
+				System.out.println(ex.getMessage());
+				JOptionPane.showMessageDialog(null,"Error borrando el registro especificado");
+			}
+		}
 }
