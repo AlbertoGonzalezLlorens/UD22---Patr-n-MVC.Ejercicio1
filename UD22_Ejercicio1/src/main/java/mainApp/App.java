@@ -1,13 +1,16 @@
 package mainApp;
 
-/**
- * Hello world!
- *
- */
+import models.Modelo;
+import views.Vista;
+import controllers.Controlador;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Modelo modelo = new Modelo();
+        Vista vista = new Vista();
+        Controlador controlador = new Controlador(modelo,vista);
+        controlador.iniciarVista();
     }
 }
