@@ -161,19 +161,30 @@ public class ModeloConexion {
 
 	// -------------------------------------------------CONSULTAR
 	// REGISTROS-----------------------------------------------------------------------------------------
-	public void consulta(Connection conexion, String db, String comando) {
+	public String consulta(Connection conexion, String db, String comando) {
+		String res = "";
 		try {
 			String Querydb = "USE " + db + ";";
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query = "SELECT " + comando;
+			String Query = "" + comando;
 			Statement st = conexion.createStatement();
-			st.executeUpdate(Query);
+			java.sql.ResultSet resultSet;
+			resultSet = st.executeQuery(Query);
+
+			while (resultSet.next()) {
+				res+=("{\nid: " + resultSet.getString("id") + "\n" + "nombre: " + resultSet.getString("nombre")
+						+ "\n" + "apellido: " + resultSet.getString("apellido") + "\n" + "direccion: "
+						+ resultSet.getString("direccion") + "\n" + "dni: " + resultSet.getString("dni") + "\n"
+						+ "fecha: " + resultSet.getString("fecha")+"\n}\n\n");
+			}
+			
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
-			JOptionPane.showMessageDialog(null, "Error al updetear el registro especificado");
+			JOptionPane.showMessageDialog(null, "Error al consultar el registro especificado");
 		}
+		return res;
 	}
 
 	// -------------------------------------------------ELIMINAR
@@ -184,7 +195,7 @@ public class ModeloConexion {
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query = "DELETE FROM " + table_name + " WHERE ID = \"" + ID + "\"";
+			String Query = "DELETE FROM " + table_name + " WHERE id = \"" + ID + "\"";
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
 			System.out.println("Se ha eliminado el registro correctamente");

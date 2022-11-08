@@ -27,6 +27,10 @@ public class Controlador implements ActionListener {
 		this.vista.btnCrearBaseDatos.addActionListener(this);
 		this.vista.btnInsertarValores.addActionListener(this);
 		this.vista.btnVerelementos.addActionListener(this);
+		this.vista.btnConsulta.addActionListener(this);
+		this.vista.btnEliminar.addActionListener(this);
+
+		
 	}
 	
 	public void iniciarVista() {
@@ -34,7 +38,7 @@ public class Controlador implements ActionListener {
 		vista.pack();
 		vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		vista.setLocationRelativeTo(null);
-		vista.setBounds(500, 500, 800, 600);
+		vista.setBounds(500, 500, 1500, 600);
 		vista.setVisible(true);
 		
 	}
@@ -57,7 +61,12 @@ public class Controlador implements ActionListener {
 		else if(vista.btnVerelementos==event.getSource()) {
 			vista.textPane.setText(modeloconexion.getValues(conexion, "ejercicio1", "cliente"));
 		}
-		
+		else if(vista.btnConsulta==event.getSource()) {
+			vista.textPane.setText(modeloconexion.consulta(conexion, "ejercicio1", vista.txtConsulta.getText()));
+		}
+		else if(vista.btnEliminar==event.getSource()) {
+			modeloconexion.deleteRecord(conexion, "ejercicio1", "cliente", vista.txtEliminar.getText());
+		}
 	}
 
 }

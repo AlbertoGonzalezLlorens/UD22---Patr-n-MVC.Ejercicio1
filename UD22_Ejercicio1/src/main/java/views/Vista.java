@@ -1,17 +1,15 @@
 package views;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
 import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.JScrollBar;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
 
 public class Vista extends JFrame {
 
@@ -32,6 +30,11 @@ public class Vista extends JFrame {
 	public JLabel lblFecha;
 	public JButton btnInsertarValores;
 	public JTextPane textPane;
+	public JTextField txtConsulta;
+	public JButton btnConsulta;
+	public JLabel lblEliminarConsulta;
+	public JTextField txtEliminar;
+	public JButton btnEliminar;
 	
 
 	/**
@@ -51,12 +54,12 @@ public class Vista extends JFrame {
 		
 		btnCerrarConexion = new JButton("Cerrar Conexion");
 		btnCerrarConexion.setFont(new Font("Calibri", Font.PLAIN, 16));
-		btnCerrarConexion.setBounds(262, 40, 138, 35);
+		btnCerrarConexion.setBounds(601, 40, 138, 35);
 		contentPane.add(btnCerrarConexion);
 		
 		btnCrearBaseDatos = new JButton("Crear Base de Datos + tabla");
 		btnCrearBaseDatos.setFont(new Font("Calibri", Font.PLAIN, 16));
-		btnCrearBaseDatos.setBounds(459, 40, 228, 35);
+		btnCrearBaseDatos.setBounds(277, 40, 228, 35);
 		contentPane.add(btnCrearBaseDatos);
 		
 		lblVerElementos = new JLabel("Insertar elementos");
@@ -124,5 +127,34 @@ public class Vista extends JFrame {
 		btnInsertarValores = new JButton("Insertar Valores");
 		btnInsertarValores.setBounds(506, 355, 138, 23);
 		contentPane.add(btnInsertarValores);
+		
+		txtConsulta = new JTextField();
+		txtConsulta.setToolTipText("");
+		txtConsulta.setColumns(10);
+		txtConsulta.setBounds(818, 183, 498, 20);
+		contentPane.add(txtConsulta);
+		
+		JLabel lblEscribirConsulta = new JLabel("Escribir consulta");
+		lblEscribirConsulta.setFont(new Font("Calibri", Font.PLAIN, 16));
+		lblEscribirConsulta.setBounds(818, 118, 138, 35);
+		contentPane.add(lblEscribirConsulta);
+		
+		btnConsulta = new JButton("Ejecutar consulta");
+		btnConsulta.setBounds(1326, 182, 142, 23);
+		contentPane.add(btnConsulta);
+		
+		lblEliminarConsulta = new JLabel("Eliminar registro (id)");
+		lblEliminarConsulta.setFont(new Font("Calibri", Font.PLAIN, 16));
+		lblEliminarConsulta.setBounds(818, 270, 138, 35);
+		contentPane.add(lblEliminarConsulta);
+		
+		txtEliminar = new JTextField();
+		txtEliminar.setBounds(818, 306, 128, 20);
+		contentPane.add(txtEliminar);
+		txtEliminar.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(838, 337, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 }
