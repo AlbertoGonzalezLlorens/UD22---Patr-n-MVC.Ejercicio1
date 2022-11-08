@@ -29,6 +29,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnVerelementos.addActionListener(this);
 		this.vista.btnConsulta.addActionListener(this);
 		this.vista.btnEliminar.addActionListener(this);
+		this.vista.btnUpdate.addActionListener(this);
 
 		
 	}
@@ -66,6 +67,9 @@ public class Controlador implements ActionListener {
 		}
 		else if(vista.btnEliminar==event.getSource()) {
 			modeloconexion.deleteRecord(conexion, "ejercicio1", "cliente", vista.txtEliminar.getText());
+		}
+		else if(vista.btnUpdate==event.getSource()) {
+			modeloconexion.updateRecord(conexion, "ejercicio1", "cliente", vista.textUpdate.getText());
 		}
 	}
 

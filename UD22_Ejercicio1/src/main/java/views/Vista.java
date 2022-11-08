@@ -35,7 +35,8 @@ public class Vista extends JFrame {
 	public JLabel lblEliminarConsulta;
 	public JTextField txtEliminar;
 	public JButton btnEliminar;
-	
+	public JTextField textUpdate;
+	public JButton btnUpdate;
 
 	/**
 	 * Create the frame.
@@ -156,5 +157,19 @@ public class Vista extends JFrame {
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBounds(838, 337, 89, 23);
 		contentPane.add(btnEliminar);
+		
+		JLabel lblUpdateRegistroid = new JLabel("Update registro");
+		lblUpdateRegistroid.setFont(new Font("Calibri", Font.PLAIN, 16));
+		lblUpdateRegistroid.setBounds(1108, 269, 138, 35);
+		contentPane.add(lblUpdateRegistroid);
+		
+		textUpdate = new JTextField();
+		textUpdate.setColumns(10);
+		textUpdate.setBounds(1032, 306, 284, 20);
+		contentPane.add(textUpdate);
+		
+		btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(1108, 338, 89, 23);
+		contentPane.add(btnUpdate);
 	}
 }
